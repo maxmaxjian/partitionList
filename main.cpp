@@ -37,8 +37,47 @@ void printList(const pNode & head) {
 class solution {
   public:
     pNode partition(const pNode & head, int x) {
+	// solution 1
+	// pNode newhead = head;
+	// pNode curr, firstLarge;
+	// curr = newhead;
+	// firstLarge = curr;
+	// while (curr != nullptr) {
+	//     if (curr->val < x) {
+	// 	if (curr != firstLarge) {
+	// 	    std::swap(curr->val, firstLarge->val);
+	// 	}
+	// 	curr = curr->next;
+	// 	firstLarge = firstLarge->next;
+	//     }
+	//     else
+	// 	curr = curr->next;
+	// }
+        // return newhead;
 
-        return nullptr;
+	// solution 2
+	pNode newhead = nullptr;
+	if (head != nullptr) {
+	    if (head->val < x) {
+		newhead = head;
+		newhead->next = partition(newhead->next, x);
+	    }
+	    else {
+		pNode p = head, prev = nullptr;
+		while (p != nullptr && p->val >= x) {
+		    prev = p;
+		    p = prev->next;
+		}
+		if (p != nullptr) {
+		    newhead = p;
+		    prev->next = p->next;
+		    newhead->next = partition(head, x);
+		}
+		else
+		    newhead = head;
+	    }
+	}
+	return newhead;
     }
 };
 
